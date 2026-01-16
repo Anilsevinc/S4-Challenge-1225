@@ -114,3 +114,5 @@ const restoran = {
     şeker: 45,
   },
 };
+
+module.exports = restoran;
