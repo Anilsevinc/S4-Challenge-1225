@@ -14,4 +14,5 @@ gibi farklı aramalar yapılabiliyor.
 Ayrıca arama sonucuna, ürünlerin **hangi kategoriye ait olduğu** bilgisini de ekledim. Böylece sonuçlar daha anlamlı hale geldi.
 
 Bu yapı sayesinde kod tekrarından kaçınılmış oldu ve arama mantığı daha esnek bir hale getirildi.
+
 ---
