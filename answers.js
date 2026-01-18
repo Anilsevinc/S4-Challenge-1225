@@ -224,3 +224,95 @@ const rapor = malzemeKullanimi(restoran.siparisler[0], restoran);
 console.log(rapor);
 */
 
+/**
+ SORU 4: Garson Performans Raporu
+Görev: Garsonların performansını analiz eden bir sistem oluştur.
+İstenenler:
+
+- Her garsonun toplam satışını hesapla
+- Kaç sipariş aldığını bul
+- Ortalama sipariş tutarını hesapla
+- En çok satan garson ve en düşük satan garson bilgisini göster
+ */
+
+// ÇÖZÜM 4: Garson Performans Raporu
+function garsonPerformansRaporu(restoran) {
+    const garsonlar = {};
+    const tumUrunler = restoran.menuler.flatMap(menu =>
+        menu.urunler);
+
+    restoran.siparisler.forEach((siparis) => {
+        const garsonAdi = siparis.garson;
+
+        // garson var mı yok mu kontrolü yoksa oluştur
+        if (!garsonlar[garsonAdi]) {
+            garsonlar[garsonAdi] = {
+                toplamSatis: 0,
+                siparisSayisi: 0,
+                ortalamaSiparis: 0 };
+        }
+        // sipariş hangi garsona aitse siparis sayısını artır
+        garsonlar[garsonAdi].siparisSayisi += 1;
+
+        let siparisToplami = 0;
+        siparis.urunler.forEach((siparisUrunu) => {
+            const urun = tumUrunler.find(u => u.id === siparisUrunu.urunId);
+
+            if (urun) {
+                siparisToplami += urun.fiyat * siparisUrunu.adet;
+            }
+        });
+
+        garsonlar[garsonAdi].toplamSatis += siparisToplami;
+
+
+
+    }
+    );// for each bitimi
+
+    // Garsonların sattıkları siparişe göre ortalama sipraişleri
+    Object.keys(garsonlar).forEach((garsonAdi) => {
+        const garson = garsonlar[garsonAdi];
+        garson.ortalamaSiparis = garson.toplamSatis / garson.siparisSayisi;
+    });
+
+    // en çok satan ile an az satış yapaın bulunması
+    let enCokSatanGarson = null;
+    let enDusukSatanGarson = null;
+
+    Object.keys(garsonlar).forEach((garsonAdi) => {
+        const garson = garsonlar[garsonAdi];
+        if (
+            !enCokSatanGarson || garson.toplamSatis > garsonlar[enCokSatanGarson].toplamSatis
+        ) {
+            enCokSatanGarson = garsonAdi;
+        }
+        if (
+            !enDusukSatanGarson || garson.toplamSatis < garsonlar[enDusukSatanGarson].toplamSatis
+        ) {
+            enDusukSatanGarson = garsonAdi;
+        }
+    });
+
+
+    //performans raporu
+    return {
+        "Garson Performans Raporu": garsonlar,
+
+        "En Çok Satış Yapan Garson": {
+            ad: enCokSatanGarson,
+            toplamSatis: garsonlar[enCokSatanGarson].toplamSatis
+        },
+
+        "En Düşük Satış Yapan Garson": {
+            ad: enDusukSatanGarson,
+            toplamSatis: garsonlar[enDusukSatanGarson].toplamSatis
+        }
+    };
+
+}// fonksiyon bitimi
+
+/* Test
+const rapor = garsonPerformansRaporu(restoran);
+console.log(rapor);
+*/
