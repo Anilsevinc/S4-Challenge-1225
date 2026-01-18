@@ -68,3 +68,44 @@ Bu yapı sayesinde:
 - Kritik stoklar önceden fark edilebilir
 - Malzeme stok yönetimi daha güvenli hale gelir
 
+---
+
+## Soru 4: Garson Performans Raporu
+
+Bu çözümde restoran içerisindeki garsonların performansını analiz eden bir sistem geliştirilmiştir.
+
+### Amaç
+- Her garsonun aldığı siparişleri analiz etmek
+- Satış performanslarını karşılaştırmak
+- En iyi ve en düşük performanslı garsonu belirlemek
+
+### Yapılan İşlemler
+- Her garson için:
+  - Toplam satış tutarı hesaplanır
+  - Aldığı sipariş sayısı bulunur
+  - Ortalama sipariş tutarı hesaplanır
+- Tüm garsonlar arasında:
+  - En çok satış yapan garson
+  - En düşük satış yapan garson tespit edilir
+
+### Kullanılan Yapılar
+- `forEach` ile siparişlerin dolaşılması
+- `flatMap` ile menülerdeki tüm ürünlerin tek bir array haline getirilmesi
+- Obje içinde obje yapısı ile garson bazlı raporlama
+
+### Örnek Çıktı
+```js
+{
+  Ahmet: {
+    toplamSatis: 280,
+    siparisSayisi: 1,
+    ortalamaSiparis: 280
+  },
+  Ayşe: {
+    toplamSatis: 240,
+    siparisSayisi: 1,
+    ortalamaSiparis: 240
+  },
+  enCokSatanGarson: "Ahmet",
+  enDusukSatanGarson: "Ayşe"
+}
