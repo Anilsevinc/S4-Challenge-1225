@@ -149,3 +149,13 @@ Amaç:
    - `toFixed(2)` ile ondalık kısım 2 basamakla sınırlandırılır.
 
    ---
+
+## Soru 6 – Kapsamlı Restoran Dashboard
+
+Önceki sorularda hazırlanan tüm fonksiyonları birleştirerek kapsamlı bir restoran dashboard’u oluşturmayı amaçlamaktadır.
+
+## Yapılanlar
+
+- Menüde arama, sipariş detayları, malzeme kullanım raporu, kategori bazlı satış analizi ve garson performans raporu fonksiyonları tek bir `restoranDashboard` fonksiyonunda toplandı.
+
+---
