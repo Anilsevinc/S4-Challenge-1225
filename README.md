@@ -35,3 +35,36 @@ Her bir ürün için:
 - bu bilgiler yeni bir obje halinde `urunler` dizisine eklendi  
 - aynı anda siparişin genel `toplamTutar` değeri güncellendi  
 
+---
+
+## Soru 3 – Malzeme Stok Kontrol Sistemi
+
+Bu soruda amaç, verilen bir siparişe göre restoranın stoklarında hangi malzemelerin ne kadar kullanıldığını hesaplamak ve stok durumunu kontrol eden bir sistem oluşturmaktı.
+
+Bu amaçla `malzemeKullanimi` adında bir fonksiyon yazıldı. Fonksiyon, parametre olarak bir **sipariş** ve **restoran** objesini alıyor.
+
+### Yapılan işlemler
+
+- Öncelikle restoran menüsündeki tüm ürünler tek bir array haline getirildi.
+- Siparişte yer alan ürünler, `urunId` üzerinden menüdeki ürünlerle eşleştirildi.
+- Her ürünün malzemeleri, sipariş adedine göre hesaplanarak kullanilanMalzemeler objesinde toplandı.
+- Daha sonra bu kullanılan miktarlar, restoran stok bilgileri ile karşılaştırıldı.
+- Stok yüzdesine göre durum bilgisi üretildi:
+  - `%20` altı → **critical**
+  - `%50` altı → **low**
+  - Diğer durumlar → **normal**
+
+### Sonuç
+
+Fonksiyon, her malzeme için:
+- Kullanılan miktar
+- Kalan stok
+- Stok durumu 
+
+bilgilerini içeren bir **stok durumu raporu** döndürmektedir.
+
+Bu yapı sayesinde:
+- Sipariş bazlı stok kontrolü yapılabilir
+- Kritik stoklar önceden fark edilebilir
+- Malzeme stok yönetimi daha güvenli hale gelir
+
