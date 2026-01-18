@@ -96,16 +96,10 @@ Bu çözümde restoran içerisindeki garsonların performansını analiz eden bi
 ### Örnek Çıktı
 ```js
 {
-  Ahmet: {
-    toplamSatis: 280,
-    siparisSayisi: 1,
-    ortalamaSiparis: 280
+  'Garson Performans Raporu': {
+    Ahmet: { toplamSatis: 970, siparisSayisi: 2, ortalamaSiparis: 485 },
+    'Ayşe': { toplamSatis: 395, siparisSayisi: 1, ortalamaSiparis: 395 }
   },
-  Ayşe: {
-    toplamSatis: 240,
-    siparisSayisi: 1,
-    ortalamaSiparis: 240
-  },
-  enCokSatanGarson: "Ahmet",
-  enDusukSatanGarson: "Ayşe"
+  'En Çok Satış Yapan Garson': { ad: 'Ahmet', toplamSatis: 970 },
+  'En Düşük Satış Yapan Garson': { ad: 'Ayşe', toplamSatis: 395 }
 }
