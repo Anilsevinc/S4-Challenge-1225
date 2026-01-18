@@ -70,7 +70,7 @@ Bu yapı sayesinde:
 
 ---
 
-## Soru 4: Garson Performans Raporu
+## Soru 4 - Garson Performans Raporu
 
 Bu çözümde restoran içerisindeki garsonların performansını analiz eden bir sistem geliştirilmiştir.
 
@@ -103,3 +103,49 @@ Bu çözümde restoran içerisindeki garsonların performansını analiz eden bi
   'En Çok Satış Yapan Garson': { ad: 'Ahmet', toplamSatis: 970 },
   'En Düşük Satış Yapan Garson': { ad: 'Ayşe', toplamSatis: 395 }
 }
+```
+---
+
+## Soru 5 - Kategori Bazlı Satış Analizi
+
+Bu analiz, restoran verilerini kullanarak **her kategori için satış adetleri ve ciroyu hesaplamak**, **en çok satan kategoriyi bulmak** ve kategorilerin toplam satış içindeki **yüzdelik paylarını** göstermek amacıyla yapılmıştır.
+
+## Problem Tanımı
+
+Restoran verisi aşağıdaki yapıya sahiptir:
+
+- `menuler` → her menüde kategoriler ve ürünler (fiyat, id, malzemeler)  
+- `siparisler` → her siparişte ürünId ve adet bilgisi  
+
+Amaç:
+
+1. Her kategoriden kaç ürün satıldığını bulmak  
+2. Kategori bazlı toplam ciroyu hesaplamak  
+3. En çok satan kategoriyi belirlemek  
+4. Kategorilerin toplam satış içindeki yüzdesini göstermek  
+
+## Çözüm Mantığı
+
+1. **Ürün ve kategori eşlemesi (`urunMap`)**
+   - Her ürünId’ye karşılık **kategori ve fiyat bilgisi** saklanır.
+   - Siparişlerde sadece ürünId üzerinden kategori ve fiyat bilgisine ulaşılır.
+
+2. **Kategori satış objesi (`kategoriSatis`)**
+   - Her kategori için **adet ve ciro** tutulur.
+   - Başlangıçta tüm değerler 0 olarak atanır.
+
+3. **Siparişlerin işlenmesi**
+   - Her siparişteki ürünler tek tek gezilir.
+   - ÜrünId kullanılarak `urunMap`’ten kategori ve fiyat alınır.
+   - İlgili kategoriye **adet ve ciro eklenir**.
+
+4. **En çok satan kategori**
+   - `kategoriSatis` üzerinden kategori bazında **adet karşılaştırması** yapılır.
+   - En yüksek adete sahip kategori **en çok satan kategori** olarak belirlenir.
+
+5. **Yüzdelik hesaplama**
+   - Toplam satış adeti bulunur.
+   - Her kategori için toplam içindeki pay yüzdelik olarak hesaplanır.
+   - `toFixed(2)` ile ondalık kısım 2 basamakla sınırlandırılır.
+
+   ---
