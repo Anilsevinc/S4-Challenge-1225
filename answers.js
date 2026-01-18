@@ -373,6 +373,11 @@ function kategoriBazliAnaliz(restoran) {
         toplamAdet += kategoriSatis[kategori].adet;
     }
 
+    // Yüzdelik payları hesaplama 
+    for (const kategori in kategoriSatis) {
+        kategoriSatis[kategori].yuzde = ((kategoriSatis[kategori].adet / toplamAdet) * 100).toFixed(2);
+    }
+    /*
     console.log("Kategori Bazlı Satış Analizi:");
     for (const kategori in kategoriSatis) {
         const adet = kategoriSatis[kategori].adet;
@@ -382,6 +387,58 @@ function kategoriBazliAnaliz(restoran) {
     }
 
     console.log("En çok satan kategori:", enCokSatanKategori);
+    */
 
+    return {
+        kategoriSatis: kategoriSatis,
+        toplamAdet: toplamAdet,
+        enCokSatanKategori: enCokSatanKategori
+    }
 
 } // kategoriBazliAnaliz fonksiyonu bitişi
+
+/*
+SORU 6: Kapsamlı Restoran Dashboard
+Görev: Tüm fonksiyonları birleştirerek kapsamlı bir dashboard oluştur.
+
+ÖNEMLİ: Bu kısım yani 6. soru daha sonra istenirse yapılabilir. Yani 5. sprintten sonra bir web uygulaması üzerinden gösterilerek yapılabilir.
+*/
+
+function restoranDashboard(restoran) {
+    // Menü Arama Örnekleri
+    const ucuzUrunler = menudeAra(restoran, urun => urun.fiyat <= 50);
+    const azKaloriliUrunler = menudeAra(restoran, urun => urun.kalori < 500);
+    const domatesliUrunler = menudeAra(restoran, urun => urun.malzemeler.includes("domates"));
+
+    const menudeArama = {
+        ucuzUrunler,
+        azKaloriliUrunler,
+        domatesliUrunler
+    };
+
+    // Sipariş Detayları (örnek olarak ilk siparişi alıyoruz)
+    const siparis = restoran.siparisler[0];
+    const siparisDetaylari = siparisIsle(siparis, restoran);
+
+    // Malzeme Kullanımı / Stok Analizi
+    const malzemeRaporu = malzemeKullanimi(siparis, restoran);
+
+    // Kategori Bazlı Satış Analizi
+    const kategoriAnalizi = kategoriBazliAnaliz(restoran);
+
+    // Garson Performans Raporu
+    const garsonRaporu = garsonPerformansRaporu(restoran);
+
+    // Tüm veriler tek obje
+    return {
+        menudeArama,
+        siparisDetaylari,
+        malzemeRaporu,
+        kategoriAnalizi,
+        garsonRaporu
+    };
+}
+/* Test
+const dashboard = restoranDashboard(restoran);
+console.log(dashboard);
+*/
