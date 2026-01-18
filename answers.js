@@ -316,3 +316,72 @@ function garsonPerformansRaporu(restoran) {
 const rapor = garsonPerformansRaporu(restoran);
 console.log(rapor);
 */
+
+/*
+SORU 5: Kategori Bazlı Satış Analizi
+Görev: Hangi kategorilerin ne kadar satış yaptığını analiz et.
+İstenenler:
+
+- Her kategoriden kaç ürün satıldığını bul
+- Kategori bazlı ciro hesapla
+- En çok satan kategoriyi bul
+- Kategorileri pasta grafiği gibi yüzdelik olarak göster
+*/
+
+// ÇÖZÜM 5: Kategori Bazlı Satış Analizi
+function kategoriBazliAnaliz(restoran) {
+    // ihtiyacımız olanlar ürünün kategorisi, id si ve fiyatı daha sonra id ye göre eşleme yapıp ciroyu hesaplamak için adeti alacağız
+    const urunMap = {};
+    restoran.menuler.forEach((menu) => {
+        menu.urunler.forEach((urun) => {
+            urunMap[urun.id] = {
+                kategori: menu.kategori,
+                fiyat: urun.fiyat
+            };
+        });
+    });
+
+    // Kategori bazında satış için objeyi oluşturuyoruz
+    const kategoriSatis = {};
+    restoran.menuler.forEach((menu) => {
+        kategoriSatis[menu.kategori] = {
+            adet: 0,
+            ciro: 0
+        };
+    });
+
+    // urunMap ve kategoriSatis kullanarak adetlerden ciroyu hesapladık
+    restoran.siparisler.forEach(siparis => {
+        siparis.urunler.forEach(item => {
+            const info = urunMap[item.urunId];  // urunId ile kategori ve fiyat bilgisi
+            kategoriSatis[info.kategori].adet += item.adet;  // kategoriye adeti ekle
+            kategoriSatis[info.kategori].ciro += item.adet * info.fiyat; // kategoriye ciroyu ekle
+        });
+    });
+    // En çok satan kategoriyi bulma
+    let enCokSatanKategori = "";
+    let maxAdet = 0;
+    for (const kategori in kategoriSatis) {
+        if (kategoriSatis[kategori].adet > maxAdet) {
+            maxAdet = kategoriSatis[kategori].adet;
+            enCokSatanKategori = kategori;
+        }
+    }
+    // Kategorilerin yüzdesini hesaplama
+    let toplamAdet = 0;
+    for (const kategori in kategoriSatis) {
+        toplamAdet += kategoriSatis[kategori].adet;
+    }
+
+    console.log("Kategori Bazlı Satış Analizi:");
+    for (const kategori in kategoriSatis) {
+        const adet = kategoriSatis[kategori].adet;
+        const ciro = kategoriSatis[kategori].ciro;
+        const yuzde = ((adet / toplamAdet) * 100).toFixed(2); //toFixed ile ondalık kısımdan 2 rakam gösteriyoruz - string olarak dönüyor - sadece formatlama
+        console.log(`${kategori}: ${adet} adet, Ciro: ${ciro}₺, Pay: %${yuzde}`);
+    }
+
+    console.log("En çok satan kategori:", enCokSatanKategori);
+
+
+} // kategoriBazliAnaliz fonksiyonu bitişi
