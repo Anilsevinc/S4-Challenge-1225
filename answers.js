@@ -142,3 +142,85 @@ const indirimli = siparisIsle(
 
 console.log(indirimli);
 */
+
+/**
+ SORU 3: Malzeme Envanter Sistemi
+Görev: Siparişlerin malzeme tüketimini hesaplayan ve stok kontrolü yapan bir sistem yaz.
+İstenenler:
+
+- Sipariş detaylarından kullanılan malzemeleri topla
+- Stok durumunu kontrol et
+- Stok uyarıları ver (critical: %20'nin altı, low: %50'nin altı)
+ */
+
+// ÇÖZÜM 3: Malzeme Kontrol Sistemi
+function malzemeKullanimi(siparis, restoran) {
+    const kullanilanMalzemeler = {}; // Hangi malzemeler ne kadar kullanılmış olduğunu tutacak obje
+
+    // Menüdeki tüm ürünler
+    // flatmap kullandık ki array içi array durumunda tek arraye indirgesin
+    const tumUrunler = restoran.menuler.flatmap(menu => menu.urunler.map(urun => ({ ...urun, kategori: menu.kategori }))
+    );
+
+    siparis.urunler.forEach((siparisUrunu) => {
+        const bulunanUrun = tumUrunler.find(urun => urun.id === siparisUrunu.urunId);
+
+        // id ler ile urunu bulduktan sonra mazlemelerini inceleyip kullanılan malzemelere ekliyoruz
+        if (bulunanUrun) {
+            bulunanUrun.malzemeler.forEach((malzeme) => {
+                if (!kullanilanMalzemeler[malzeme]) {
+                    kullanilanMalzemeler[malzeme] = 0;
+                }
+                kullanilanMalzemeler[malzeme] += siparisUrunu.adet;
+            }
+            );
+        }
+        // test 
+        //console.log(kullanilanMalzemeler);
+    });
+
+
+
+    // Stok durumunu hesaplama
+
+    const stokDurumu = {};
+
+    //Object.keys objenin keylerini alır ve array olarak döner objeye forEach uygulayamayacağımız için arraye çeviriyoruz
+    Object.keys(kullanilanMalzemeler).forEach((malzeme) => {
+        // restorandan stoğu, kullanılan malzemeler objesindende miktarı alıp stok hesabı yapıyoruz
+        const mevcutStok = restoran.stok[malzeme];
+        const kullanilanMiktar = kullanilanMalzemeler[malzeme];
+        const kalanStok = mevcutStok - kullanilanMiktar;
+        const stokYuzdesi = (kalanStok / mevcutStok) * 100; // Stok yüzdesi hesaplama
+
+        // stok durumuna göre durum hangi düzeyde olduğunu bildiriyoruz
+
+        let durum;
+
+        if (stokYuzdesi < 20) {
+            durum = "critical";
+        } else if (stokYuzdesi < 50) {
+            durum = "low";
+        } else {
+            durum = "normal";
+        }
+
+        stokDurumu[malzeme] = {
+            kullanilan: kullanilanMiktar,
+            kalan: kalanStok,
+            durum: durum
+        };
+
+
+    });
+
+    return stokDurumu;
+
+
+}//malzemeKullanimi-fonksiyon-bitişi
+
+/* Test 
+const rapor = malzemeKullanimi(restoran.siparisler[0], restoran);
+console.log(rapor);
+*/
+
